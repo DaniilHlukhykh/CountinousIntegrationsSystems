@@ -48,7 +48,7 @@ app.get("/api/newsposts", async (request, response) => {
   response.json(newsposts);
 });
 
-app.get("/api/newsposts/error", (request, response) => {
+app.get("/api/newsposts/error", () => {
   newspostsService.throwError();
 });
 
@@ -141,6 +141,7 @@ app.use(
     error: unknown,
     request: Request,
     response: Response,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Express розпізнає error-handler за 4 аргументами
     next: NextFunction,
   ) => {
     if (error instanceof ValidationError) {

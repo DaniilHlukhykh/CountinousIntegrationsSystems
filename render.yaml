@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: news-service
+    runtime: node
+    plan: free
+    # Деплой запускає GitHub Actions (deploy hook) після успішного CI
+    autoDeploy: false
+    buildCommand: >-
+      cd Client && npm ci && npm run build &&
+      cd ../Backend && npm ci --include=dev && npm run build
+    startCommand: cd Backend && npm start
+    healthCheckPath: /api/newsposts
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: HOST
+        value: 0.0.0.0
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
